@@ -1,15 +1,22 @@
 import * as os from 'os';
-export class verificateurChaine {
+import { LangueInterface } from "./langueInterface";
 
-    public static verifier(chaine:string) : string {
+export class VerificateurChaine {
+    private readonly _langue: LangueInterface;
+
+    constructor(langue: LangueInterface) {
+        this._langue = langue;
+    }
+
+    public verifier(chaine:string) : string {
 
          let miroir = chaine.split('').reverse().join('')
 
          if(chaine == miroir) {
-            miroir = chaine + os.EOL + 'Bien dit !'
+            miroir = chaine + os.EOL + this._langue.feliciter();
          }
 
-        return 'Bonjour' + os.EOL + miroir + os.EOL + 'Au revoir';
+        return this._langue.saluer() + os.EOL + miroir + os.EOL + 'Au revoir';
 
     }
 }
