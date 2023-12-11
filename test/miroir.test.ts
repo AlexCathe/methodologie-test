@@ -9,6 +9,17 @@ import { Expressions } from '../src/expression';
 const palindrome = 'engagelejeuquejelegagne';
 const nonPalindrome = ['test', 'ynov'];
 
+// function* casSalutations() {
+//     const chaines = [...nonPalindrome, palindrome];
+//     const langues = [[new LangueAnglaise(), Expressions.HELLO], [new LangueFrançaise(), Expressions.BONJOUR]];
+
+//     for (let chaine of chaines) {
+//         for (let langue of langues) {
+            
+//         }
+//     }
+// }
+
 describe('test works', () => {
     test.each([
         ['test'],
@@ -73,5 +84,16 @@ describe('test works', () => {
         let resultat = new VerificateurChaineBuilder().AyantPourLangue(langue).Build().verifier("test");
         var premiereLigne = resultat.split(os.EOL)[0]
         expect(premiereLigne).toEqual(attendu)
+    })
+
+    test.each([[new LangueFrançaise(), Expressions.AU_REVOIR], [new LangueAnglaise(), Expressions.GOODBYE]])
+    ('ETANT DONNE un utilisateur parlant une langue ' +
+    'QUAND on entre une chaine ' +
+    'ALORS il est renvoyé et le <au revoir> de cette langue est envoyé avant tout', 
+    (langue: LangueInterface, attendu: string) => {
+
+        let resultat = new VerificateurChaineBuilder().AyantPourLangue(langue).Build().verifier("test");
+        var derniereLigne = resultat.split(os.EOL)[2]
+        expect(derniereLigne).toEqual(attendu)
     })
 })

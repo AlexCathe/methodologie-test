@@ -9,4 +9,8 @@ export class LangueFrançaise implements LangueInterface {
     public saluer(): string {
         return Expressions.BONJOUR;
     }
+    
+    public quitter(): string {
+        return Expressions.AU_REVOIR;
+    }
 }

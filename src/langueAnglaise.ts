@@ -9,4 +9,8 @@ export class LangueAnglaise implements LangueInterface {
     public saluer(): string {
         return Expressions.HELLO;
     }
+
+    public quitter(): string {
+        return Expressions.GOODBYE;
+    }
 }
