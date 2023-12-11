@@ -8,7 +8,8 @@ export class verificateurChaine {
          if(chaine == miroir) {
             miroir = chaine + os.EOL + 'Bien dit !'
          }
-        return 'Bonjour' + os.EOL + miroir;
+
+        return 'Bonjour' + os.EOL + miroir + os.EOL + 'Au revoir';
 
     }
 }

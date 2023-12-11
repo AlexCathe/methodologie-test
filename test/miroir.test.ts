@@ -13,13 +13,15 @@ describe('test works', () => {
         expect(resultat).toContain(attendu);
     });
 
-    test('QUAND on saisit un palindrome, ALORS il est renvoyé Bien dit !',
-     () => {
-        const palindrome = 'radar';
+    test.each([
+        ['engagelejeuquejelegagne'],
+        ['girafarig']
+    ])('QUAND on saisit un palindrome, ALORS il est renvoyé Bien dit !',
+     (chaine: string) => {
 
-        let resultat = verificateurChaine.verifier(palindrome);
+        let resultat = verificateurChaine.verifier(chaine);
 
-        expect(resultat).toContain(palindrome + os.EOL + 'Bien dit !')
+        expect(resultat).toContain(chaine + os.EOL + 'Bien dit !')
      })
 
      test('QUAND on saisit une chaine, ALORS Bonjour est affiché en première ligne',
@@ -30,5 +32,14 @@ describe('test works', () => {
         var premiereLigne = resultat.split(os.EOL)[0]
         expect(premiereLigne).toEqual('Bonjour')
      })
+
+     test('QUAND on saisit un chaîne ' +
+        'ALORS "Au revoir" est envoyé en dernier.', () => {
+            const chaine = 'test';
+
+            let resultat = verificateurChaine.verifier(chaine);
+            var derniereLigne = resultat.split(os.EOL)[2];
+            expect(derniereLigne).toEqual("Au revoir");
+        })
 
 })
