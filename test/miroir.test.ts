@@ -9,24 +9,25 @@ import { Expressions } from '../src/expression';
 const palindrome = 'engagelejeuquejelegagne';
 const nonPalindrome = ['test', 'ynov'];
 
-// function* casSalutations() {
-//     const chaines = [...nonPalindrome, palindrome];
-//     const langues = [[new LangueAnglaise(), Expressions.HELLO], [new LangueFrançaise(), Expressions.BONJOUR]];
+function* casSalutations() {
+    const chaines: string[] = [...nonPalindrome, palindrome];
+    const langues: LangueInterface[] = [new LangueAnglaise(), new LangueFrançaise()];
+    const cases: any[] = [];
+    for (let chaine of chaines) {
+        for (let langue of langues) {
+            cases.push([chaine, langue])
+        }
+    }
 
-//     for (let chaine of chaines) {
-//         for (let langue of langues) {
-            
-//         }
-//     }
-// }
+    return cases;
+}
 
 describe('test works', () => {
     test.each([
-        ['test'],
-        ['ynov']
+        casSalutations()
     ])('QUAND on saisit un non-palindrome %s ' + 
     'ALORS elle est renvoyée en miroir',
-    (chaine : string) => {
+    (chaine : any) => {
         const resultat = VerificateurChaineBuilder.Default().verifier(chaine);
 
         let attendu = chaine.split('').reverse().join('');
