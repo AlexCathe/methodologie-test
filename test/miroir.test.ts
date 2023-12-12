@@ -1,21 +1,27 @@
 import { LangueAnglaise } from './../src/langueAnglaise';
-import { VerificateurChaine } from '../src/verificateurChaine';
 import * as os from "os";
 import { VerificateurChaineBuilder } from './utilities/verificateurChaineBuilder';
 import { LangueInterface } from '../src/langueInterface';
 import { LangueFrançaise } from '../src/langueFrançaise';
 import { Expressions } from '../src/expression';
+import { LangueFake } from './utilities/LangueFake';
+import { LangueStub } from './utilities/LangueStub';
+import { MomentDeLaJournee } from '../src/MomentDeLaJournee';
 
-const palindrome = 'engagelejeuquejelegagne';
+const palindrome = ['engagelejeuquejelegagne', 'radar'];
 const nonPalindrome = ['test', 'ynov'];
+const moments : MomentDeLaJournee[] = [MomentDeLaJournee.INCONNU, 
+    MomentDeLaJournee.MATIN,
+    MomentDeLaJournee.APRES_MIDI,
+    MomentDeLaJournee.SOIREE,
+    MomentDeLaJournee.NUIT]
 
-function* casSalutations() {
-    const chaines: string[] = [...nonPalindrome, palindrome];
-    const langues: LangueInterface[] = [new LangueAnglaise(), new LangueFrançaise()];
-    const cases: any[] = [];
+function casSalutations() {
+    const chaines: string[] = [...nonPalindrome, ...palindrome];
+    const cases: [MomentDeLaJournee, string][] = [];
     for (let chaine of chaines) {
-        for (let langue of langues) {
-            cases.push([chaine, langue])
+        for (let moment of moments) {
+            cases.push([moment, chaine])
         }
     }
 
@@ -24,8 +30,11 @@ function* casSalutations() {
 
 describe('test works', () => {
     test.each([
-        casSalutations()
-    ])('QUAND on saisit un non-palindrome %s ' + 
+        ['test', new LangueFrançaise()],
+        ['radar', new LangueFrançaise()],
+        ['test', new LangueAnglaise()],
+        ['radar', new LangueAnglaise()]
+    ])('QUAND on saisit une chaine %s ' + 
     'ALORS elle est renvoyée en miroir',
     (chaine : any) => {
         const resultat = VerificateurChaineBuilder.Default().verifier(chaine);
@@ -35,8 +44,7 @@ describe('test works', () => {
     });
 
     test.each([
-        ['engagelejeuquejelegagne'],
-        ['girafarig']
+        ...palindrome
     ])('QUAND on saisit un palindrome, ALORS il est renvoyé Bien dit !',
      (chaine: string) => {
 
@@ -45,56 +53,20 @@ describe('test works', () => {
         expect(resultat).toContain(chaine + os.EOL + Expressions.BIEN_DIT)
      })
 
-     test('QUAND on saisit une chaine, ALORS Bonjour est affiché en première ligne',
-     () => {
-        const chaine = 'test';
-
-        let resultat = VerificateurChaineBuilder.Default().verifier(chaine);
-        var premiereLigne = resultat.split(os.EOL)[0]
-        expect(premiereLigne).toEqual('Bonjour')
-     })
-
-     test('QUAND on saisit un chaîne ' +
-        'ALORS "Au revoir" est envoyé en dernier.', () => {
-            const chaine = 'test';
-
-            let resultat =VerificateurChaineBuilder.Default().verifier(chaine);
-            var derniereLigne = resultat.split(os.EOL)[2];
-            expect(derniereLigne).toEqual("Au revoir");
-        })
-
-    test.each([[new LangueFrançaise(), Expressions.BIEN_DIT], [new LangueAnglaise(), Expressions.WELL_SAID]])
+    test.each(casSalutations())
     ('ETANT DONNE un utilisateur parlant une langue ' +
-    'QUAND on entre un palindrome' +
-    'ALORS il est renvoyé et le <bienDit> de cette langue est envoyé avant tout', 
-    (langue: LangueInterface, attendu: string) => {
-      
-        let verificateur = new VerificateurChaineBuilder().AyantPourLangue(langue).Build();
-
-        let resultat = verificateur.verifier(palindrome);
-
-        expect(resultat).toContain(palindrome + os.EOL + attendu)
-    })
-    
-    test.each([[new LangueFrançaise(), Expressions.BONJOUR], [new LangueAnglaise(), Expressions.HELLO]])
-    ('ETANT DONNE un utilisateur parlant une langue ' +
+    'ET que nous somme le %s'+
     'QUAND on entre une chaine ' +
-    'ALORS il est renvoyé et le <BONJOUR> de cette langue est envoyé avant tout', 
-    (langue: LangueInterface, attendu: string) => {
-
-        let resultat = new VerificateurChaineBuilder().AyantPourLangue(langue).Build().verifier("test");
-        var premiereLigne = resultat.split(os.EOL)[0]
-        expect(premiereLigne).toEqual(attendu)
-    })
-
-    test.each([[new LangueFrançaise(), Expressions.AU_REVOIR], [new LangueAnglaise(), Expressions.GOODBYE]])
-    ('ETANT DONNE un utilisateur parlant une langue ' +
-    'QUAND on entre une chaine ' +
-    'ALORS il est renvoyé et le <au revoir> de cette langue est envoyé avant tout', 
-    (langue: LangueInterface, attendu: string) => {
-
-        let resultat = new VerificateurChaineBuilder().AyantPourLangue(langue).Build().verifier("test");
-        var derniereLigne = resultat.split(os.EOL)[2]
-        expect(derniereLigne).toEqual(attendu)
+    'ALORS il est renvoyé et le bonjour de cette langue est envoyé avant tout', 
+    (moment : MomentDeLaJournee, chaine : string) => {
+        
+        const langue : LangueFake = new LangueFake();
+        let resultat = new VerificateurChaineBuilder()
+                            .AyantPourLangue(langue)
+                            .AyantPourMomentDeLaJournee(moment)
+                            .Build()
+                            .verifier(chaine);
+        var derniereLigne = resultat.split(os.EOL)[0]
+        expect(derniereLigne).toEqual(langue.saluer())
     })
 })

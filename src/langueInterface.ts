@@ -1,5 +1,7 @@
+import { MomentDeLaJournee } from "./MomentDeLaJournee";
+
 export interface LangueInterface {
     feliciter(): string;
-    saluer(): string;
-    quitter(): string;
+    saluer(moment : MomentDeLaJournee): string;
+    quitter(moment : MomentDeLaJournee): string;
 }
