@@ -55,9 +55,9 @@ describe('test works', () => {
 
     test.each(casSalutations())
     ('ETANT DONNE un utilisateur parlant une langue ' +
-    'ET que nous somme le %s'+
-    'QUAND on entre une chaine ' +
-    'ALORS il est renvoyé et le bonjour de cette langue est envoyé avant tout', 
+    'ET que nous somme le %s '+
+    'QUAND il entre une chaine ' +
+    'ALORS les salutations de cette langue à ce moment de la journée sont envoyées avant toute réponse', 
     (moment : MomentDeLaJournee, chaine : string) => {
         
         const langue : LangueFake = new LangueFake();
@@ -66,7 +66,8 @@ describe('test works', () => {
                             .AyantPourMomentDeLaJournee(moment)
                             .Build()
                             .verifier(chaine);
+        
         var derniereLigne = resultat.split(os.EOL)[0]
-        expect(derniereLigne).toEqual(langue.saluer())
+        expect(derniereLigne).toEqual(langue.saluer(moment))
     })
 })
