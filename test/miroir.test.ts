@@ -1,12 +1,12 @@
-import { LangueAnglaise } from './../src/langueAnglaise';
+import { LangueAnglaise } from '../src/domain/langueAnglaise';
 import * as os from "os";
 import { VerificateurChaineBuilder } from './utilities/verificateurChaineBuilder';
-import { LangueInterface } from '../src/langueInterface';
-import { LangueFrançaise } from '../src/langueFrançaise';
-import { Expressions } from '../src/expression';
+import { LangueInterface } from '../src/domain/langueInterface';
+import { LangueFrançaise } from '../src/domain/langueFrançaise';
+import { Expressions } from '../src/domain/expression';
 import { LangueFake } from './utilities/LangueFake';
 import { LangueStub } from './utilities/LangueStub';
-import { MomentDeLaJournee } from '../src/MomentDeLaJournee';
+import { MomentDeLaJournee } from '../src/domain/MomentDeLaJournee';
 
 const palindrome = ['engagelejeuquejelegagne', 'radar'];
 const nonPalindrome = ['test', 'ynov'];

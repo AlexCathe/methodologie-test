@@ -1,7 +1,7 @@
-import { LangueInterface } from '../../src/langueInterface';
-import {VerificateurChaine} from '../../src/verificateurChaine';
-import { LangueFrançaise } from '../../src/langueFrançaise';
-import { MomentDeLaJournee } from '../../src/MomentDeLaJournee';
+import { LangueInterface } from '../../src/domain/langueInterface';
+import {VerificateurChaine} from '../../src/domain/verificateurChaine';
+import { LangueFrançaise } from '../../src/domain/langueFrançaise';
+import { MomentDeLaJournee } from '../../src/domain/MomentDeLaJournee';
 
 export class VerificateurChaineBuilder {
     private _langue: LangueInterface = new LangueFrançaise();
