@@ -57,6 +57,22 @@ describe('test works', () => {
         expect(resultat).toContain(chaine + os.EOL + Expressions.BIEN_DIT);
      })
 
+    test.each([
+        ...palindrome
+    ])('ETANT DONNÉ un utilisateur parlant une langue' +
+    'QUAND on saisit un palindrome, ALORS il est renvoyé Bien dit dans la langue de la personne',
+     (chaine: string) => {
+
+        const langue: LangueFake = new LangueFake();
+        let attendu = chaine.split('').reverse().join('');
+
+        let resultat = new VerificateurChaineBuilder().AyantPourLangue(langue).Build().verifier(chaine);
+        let chainePal = resultat.split(os.EOL)[1]
+
+        expect(chainePal).toEqual(attendu);
+        expect(resultat).toContain(chaine + os.EOL + langue.feliciter());
+     })
+
     test.each(casSalutations())
     ('ETANT DONNE un utilisateur parlant une langue ' +
     'ET que nous somme le %s '+
@@ -71,7 +87,25 @@ describe('test works', () => {
                             .Build()
                             .verifier(chaine);
         
-        var derniereLigne = resultat.split(os.EOL)[0]
-        expect(derniereLigne).toEqual(langue.saluer(moment))
+        var premiereLigne = resultat.split(os.EOL)[0]
+        expect(premiereLigne).toEqual(langue.saluer(moment))
+    })
+
+    test.each(casSalutations())
+    ('ETANT DONNE un utilisateur parlant une langue ' +
+    'ET que nous somme le %s '+
+    'QUAND il entre une chaine ' +
+    'ALORS les au revoir de cette langue à ce moment de la journée sont envoyées à la fin', 
+    (moment : MomentDeLaJournee, chaine : string) => {
+        
+        const langue : LangueFake = new LangueFake();
+        let resultat = new VerificateurChaineBuilder()
+                            .AyantPourLangue(langue)
+                            .AyantPourMomentDeLaJournee(moment)
+                            .Build()
+                            .verifier(chaine);
+        var resultatSplit = resultat.split(os.EOL);
+        var derniereLigne = resultatSplit[resultatSplit.length - 1]
+        expect(derniereLigne).toEqual(langue.quitter(moment))
     })
 })

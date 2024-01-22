@@ -8,8 +8,8 @@ export class LangueFake implements LangueInterface {
     saluer(moment : MomentDeLaJournee): string {
         return 'Bien le bonjour/' + moment.toString()
     }
-    quitter(): string {
-        return 'Arvi'
+    quitter(moment : MomentDeLaJournee): string {
+        return 'Arvi/' + moment.toString()
     }
 
 }
