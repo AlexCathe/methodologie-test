@@ -2,4 +2,8 @@
 
 Echauffement dans la branche `initial`
 
-Mise en place des tests en TS dans la branche `initial-tdd`
+Historique des commits du projet dans la branche `initial-tdd`
+
+Pour lancer les tests :
+- `npm i`
+- `npm run test`
