@@ -86,6 +86,5 @@ describe('test recette', () => {
         expect(attendu).toEqual(reverseChaine);
         expect(felicitations).toEqual(français.feliciter())
         expect(derniereLigne).toEqual(français.quitter(moment))
-
     })
 })

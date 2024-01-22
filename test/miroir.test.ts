@@ -48,9 +48,13 @@ describe('test works', () => {
     ])('QUAND on saisit un palindrome, ALORS il est renvoyé Bien dit !',
      (chaine: string) => {
 
-        let resultat = VerificateurChaineBuilder.Default().verifier(chaine);
+        let attendu = chaine.split('').reverse().join('');
 
-        expect(resultat).toContain(chaine + os.EOL + Expressions.BIEN_DIT)
+        let resultat = VerificateurChaineBuilder.Default().verifier(chaine);
+        let chainePal = resultat.split(os.EOL)[1]
+
+        expect(chainePal).toEqual(attendu);
+        expect(resultat).toContain(chaine + os.EOL + Expressions.BIEN_DIT);
      })
 
     test.each(casSalutations())
